@@ -13,10 +13,10 @@ export default function BookNow() {
     e.preventDefault();
 
     emailjs.sendForm(
-      "service_l7w051w",
-      "template_nadk32a",
+      "service_seo35po",      // Your Service ID
+      "template_bc11k15",     // Your Template ID
       form.current,
-      "7ffYr4tGxzM2EAD0k"
+      "7ffYr4tGxzM2EAD0k"    // Your Public Key
     ).then(
       () => toast.success("Booking sent! We'll contact you soon.", { position: "top-center" }),
       () => toast.error("Failed to send. Please try again.", { position: "top-center" })
@@ -26,7 +26,7 @@ export default function BookNow() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9F7F5] flex flex-col justify-between">
+    <div className="min-h-screen bg-black flex flex-col justify-between">
       <div className="flex-1 flex flex-col justify-center items-center px-6">
         {/* Animated Title */}
         <motion.h1
@@ -78,36 +78,14 @@ export default function BookNow() {
             />
           </div>
 
-          <select
+          {/* Service input as typeable text */}
+          <input
+            type="text"
             name="service"
+            placeholder="Service you want"
             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
-            defaultValue=""
-          >
-            <option value="" disabled>Select Service</option>
-            <option>Wedding Landscape</option>
-            <option>Wedding Studio</option>
-            <option>Wedding VIP</option>
-            <option>Mels Kilikil</option>
-            <option>Bridal Shower</option>
-            <option>Bachelor Party</option>
-            <option>Enshoshla</option>
-            <option>Genfo</option>
-            <option>Ero</option>
-            <option>Tifir</option>
-            <option>Koreta</option>
-            <option>Tinsis</option>
-            <option>Baby Shower</option>
-            <option>New Born</option>
-            <option>Kiristna Studio</option>
-            <option>Graduation</option>
-            <option>Birthday</option>
-            <option>Event</option>
-            <option>Documentary</option>
-            <option>Family</option>
-            <option>Fashion and Modeling</option>
-            <option>Products Branding</option>
-          </select>
+          />
 
           <textarea
             name="message"

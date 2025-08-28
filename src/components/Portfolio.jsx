@@ -53,15 +53,15 @@ export default function Portfolio() {
   }, []);
 
   const topImages = [
-    "/images/w30.png", "/images/w28.png", "/images/w3.jpg", "/images/w9.jpg",
-    "/images/w29.png", "/images/w1.jpg", "/images/w25.png", "/images/w7.jpg",
-    "/images/w21.jpg", "/images/w10.jpg"
+    "/images/w28.jpg", "/images/w16.jpg", "/images/w14.jpg", "/images/w11.jpg",
+    "/images/w27.jpg", "/images/w15.jpg", "/images/w12.jpg", "/images/w9.jpg",
+    "/images/w3.jpg", "/images/w1.jpg"
   ];
 
   const bottomImages = [
-    "/images/w30.png", "/images/w28.png", "/images/w3.jpg", "/images/w9.jpg",
-    "/images/w29.png", "/images/w1.jpg", "/images/w25.png", "/images/w7.jpg",
-    "/images/w21.jpg", "/images/w10.jpg"
+    "/images/w28.jpg", "/images/w16.jpg", "/images/w14.jpg", "/images/w11.jpg",
+    "/images/w27.jpg", "/images/w15.jpg", "/images/w12.jpg", "/images/w9.jpg",
+    "/images/w3.jpg", "/images/w1.jpg"
   ];
 
   const fullTop = [...Array(4)].flatMap(() => topImages);
@@ -78,13 +78,13 @@ export default function Portfolio() {
   };
 
   return (
-    <section className="bg-[#F9F7F5] py-16 px-0 relative">
+    <section className="bg-black py-16 px-0 relative">
       {/* Top horizontal line */}
-      <div className="w-full border-t border-gray-300 mb-6"></div>
+      <div className="w-full border-t border-white mb-6"></div>
 
       {/* Heading with animation */}
       <motion.h2
-        className="text-3xl md:text-4xl font-serif uppercase tracking-wider text-center mb-12 mt-12"
+        className="text-3xl md:text-4xl font-serif uppercase tracking-wider text-center mb-12 mt-12 text-white"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.5 }}
@@ -97,7 +97,7 @@ export default function Portfolio() {
       <div
         ref={sliderRef1}
         className="flex overflow-x-auto overflow-y-hidden scrollbar-hide"
-        style={{ height: '200px' }}
+        style={{ height: "200px" }}
       >
         {fullTop.map((src, i) => (
           <img
@@ -114,7 +114,7 @@ export default function Portfolio() {
       <div
         ref={sliderRef2}
         className="flex overflow-x-auto overflow-y-hidden scrollbar-hide mt-4"
-        style={{ height: '200px' }}
+        style={{ height: "200px" }}
       >
         {fullBottom.map((src, i) => (
           <img
@@ -128,7 +128,7 @@ export default function Portfolio() {
       </div>
 
       {/* Bottom horizontal line */}
-      <div className="w-full border-t border-gray-300 mt-12"></div>
+      <div className="w-full border-t border-white mt-12"></div>
     </section>
   );
 }
