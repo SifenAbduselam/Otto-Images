@@ -9,21 +9,21 @@ export default function CategoryPage() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
 
- useEffect(() => {
-  async function loadImages() {
-    setLoading(true);
-    try {
-      const res = await fetch(`https://my-backend.onrender.com/images/${category}`); // <-- deployed backend
-      const urls = await res.json();
-      setImages(urls);
-    } catch (err) {
-      console.error(`Error loading folder ${category}:`, err);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    async function loadImages() {
+      setLoading(true);
+      try {
+        const res = await fetch(`https://otto-images.onrender.com/images/${category}`);
+        const urls = await res.json();
+        setImages(urls);
+      } catch (err) {
+        console.error(`Error loading folder ${category}:`, err);
+      } finally {
+        setLoading(false);
+      }
     }
-  }
-  loadImages();
-}, [category]);
+    loadImages();
+  }, [category]);
 
   return (
     <div className="bg-black text-white pt-28 px-6 min-h-screen">

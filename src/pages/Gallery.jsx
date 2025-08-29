@@ -21,17 +21,16 @@ export default function Gallery() {
   const [previewImages, setPreviewImages] = useState({});
 
   useEffect(() => {
-  folders.forEach(async (folder) => {
-    try {
-      const res = await fetch(`https://my-backend.onrender.com/images/${folder}`); // <-- deployed backend
-      const urls = await res.json();
-      setPreviewImages(prev => ({ ...prev, [folder]: urls[0] || null }));
-    } catch (err) {
-      console.error(`Error loading folder ${folder}:`, err);
-    }
-  });
-}, []);
-
+    folders.forEach(async (folder) => {
+      try {
+        const res = await fetch(`https://otto-images.onrender.com/images/${folder}`);
+        const urls = await res.json();
+        setPreviewImages(prev => ({ ...prev, [folder]: urls[0] || null }));
+      } catch (err) {
+        console.error(`Error loading folder ${folder}:`, err);
+      }
+    });
+  }, []);
 
   return (
     <div className="bg-black text-white pt-28 px-6">
