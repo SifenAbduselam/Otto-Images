@@ -1,8 +1,8 @@
-// src/pages/CategoryPage.jsx
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
+import { fetchImagesByCategory } from "../utils/fetchImages";
 
 export default function CategoryPage() {
   const { category } = useParams();
@@ -13,8 +13,7 @@ export default function CategoryPage() {
     async function loadImages() {
       setLoading(true);
       try {
-        const res = await fetch(`https://otto-images.onrender.com/images/${category}`);
-        const urls = await res.json();
+        const urls = await fetchImagesByCategory(category);
         setImages(urls);
       } catch (err) {
         console.error(`Error loading folder ${category}:`, err);

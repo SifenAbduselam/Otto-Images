@@ -1,8 +1,8 @@
-// src/pages/Gallery.jsx
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
+import { fetchImagesByCategory } from "../utils/fetchImages";
 
 const folders = [
   "wedding",
@@ -21,15 +21,25 @@ export default function Gallery() {
   const [previewImages, setPreviewImages] = useState({});
 
   useEffect(() => {
-    folders.forEach(async (folder) => {
-      try {
-        const res = await fetch(`https://otto-images.onrender.com/images/${folder}`);
-        const urls = await res.json();
-        setPreviewImages(prev => ({ ...prev, [folder]: urls[0] || null }));
-      } catch (err) {
-        console.error(`Error loading folder ${folder}:`, err);
+    const loadPreviews = async () => {
+      const previewMap = {};
+
+      for (const folder of folders) {
+        try {
+          console.log(`🔍 Fetching preview for folder: ${folder}`);
+          const urls = await fetchImagesByCategory(folder);
+          previewMap[folder] = urls[0] || null;
+          console.log(`✅ Got preview for ${folder}:`, urls[0]);
+        } catch (err) {
+          console.error(`❌ Failed to load preview for ${folder}:`, err);
+          previewMap[folder] = null;
+        }
       }
-    });
+
+      setPreviewImages(previewMap);
+    };
+
+    loadPreviews();
   }, []);
 
   return (
@@ -47,7 +57,9 @@ export default function Gallery() {
         {folders.map((folder, index) => (
           <motion.div
             key={folder}
-            className={`flex flex-col md:flex-row items-center justify-between gap-6 ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
+            className={`flex flex-col md:flex-row items-center justify-between gap-6 ${
+              index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+            }`}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.5 }}
@@ -65,7 +77,7 @@ export default function Gallery() {
               />
             ) : (
               <motion.div className="w-full md:w-1/2 h-64 bg-gray-800 flex items-center justify-center text-gray-500 text-lg rounded-lg">
-                Image Coming Soon
+                No Preview Available
               </motion.div>
             )}
 
