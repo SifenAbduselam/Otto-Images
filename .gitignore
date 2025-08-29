@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 .vercel
+
+# Ignore backend environment file
+cloudinary-backend/.env
+
