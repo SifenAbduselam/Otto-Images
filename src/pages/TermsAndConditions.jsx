@@ -4,6 +4,7 @@ export default function TermsAndConditions() {
   return (
     <div className="min-h-screen bg-black flex flex-col font-[Poppins]">
       <div className="flex-1 px-6 py-20 max-w-3xl mx-auto text-center">
+
         <h1 className="text-3xl md:text-4xl font-bold mb-8" style={{ color: "#D4AF37" }}>
           Terms and Conditions
         </h1>
@@ -21,11 +22,14 @@ export default function TermsAndConditions() {
 
         <h2 className="text-2xl font-semibold mt-8 mb-3" style={{ color: "#D4AF37" }}> Booking and Payment</h2>
         <p className="text-white leading-relaxed text-base">
+
           A 50% non-refundable deposit is required to secure your booking. Full payments can be made via cash or bank transfer.
+
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-3" style={{ color: "#D4AF37" }}> Cancellations & Rescheduling</h2>
         <p className="text-white leading-relaxed text-base">
+
           Cancellations made at least 14 days before the event may be eligible for a partial refund (deposit excluded). Rescheduling depends on availability.
         </p>
 
@@ -37,6 +41,8 @@ export default function TermsAndConditions() {
         <h2 className="text-2xl font-semibold mt-8 mb-3" style={{ color: "#D4AF37" }}> Limitation of Liability & Governing Law</h2>
         <p className="text-white leading-relaxed text-base">
           Otto Images is not liable for indirect or consequential damages. All terms are governed by Ethiopian law.
+
+         
         </p>
       </div>
 

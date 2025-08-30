@@ -47,7 +47,11 @@ export default function About() {
           viewport={{ once: false, amount: 0.5 }}
           variants={textVariants}
         >
+
           Otto Images
+
+        
+
         </motion.h1>
       </section>
 
@@ -62,8 +66,11 @@ export default function About() {
             viewport={{ once: false, amount: 0.3 }}
             variants={textVariants}
           >
+
             Otto Images is a pioneering cinematography and photography company based in Ethiopia. 
             Our mission is to revolutionize the industry by setting new standards of excellence and creativity.
+
+            
           </motion.p>
 
           <motion.p
@@ -74,8 +81,11 @@ export default function About() {
             viewport={{ once: false, amount: 0.3 }}
             variants={textVariants}
           >
+
             We offer a comprehensive range of services including modeling photography, wedding coverage, bridal showers, maternity shoots, and other events. 
             Our skilled team brings a unique artistic vision to each project, ensuring visually captivating and timeless results.
+
+           
           </motion.p>
 
           <motion.p
@@ -86,6 +96,7 @@ export default function About() {
             viewport={{ once: false, amount: 0.3 }}
             variants={textVariants}
           >
+
             At Otto Images, we are committed to delivering exceptional customer service, adhering to strict timelines, and maintaining the highest standards of visual quality. 
             Our mission is to transform Ethiopian cinematography and photography through creativity, accessibility, and captivating visual services.
           </motion.p>
@@ -100,9 +111,12 @@ export default function About() {
           >
             Our vision is to become the leading provider of modern and creative visual services in Ethiopia, making a positive impact on the growth and prosperity of the industry. 
             We prioritize excellence, creativity, customer satisfaction, social responsibility, and the empowerment of our team and community.
+
+           
           </motion.p>
         </div>
       </section>
+
 
       {/* Full-Width Horizontal Line */}
       <motion.div
@@ -125,6 +139,7 @@ export default function About() {
             viewport={{ once: false, amount: 0.3 }}
             variants={textVariants}
           >
+
             Great pictures for beautiful memories
           </motion.h3>
         </div>
@@ -134,6 +149,8 @@ export default function About() {
       <section className="px-6 md:px-12 mt-16">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 max-w-6xl mx-auto overflow-hidden">
           {["/images/w4.jpg", "/images/w5.jpg", "/images/w6.jpg"].map((src, index) => (
+
+       
             <motion.div
               key={index}
               className="overflow-hidden"
@@ -152,7 +169,9 @@ export default function About() {
         </div>
       </section>
 
+
       {/* Signature Closing Line */}
+
       <section className="px-6 md:px-12 mt-12">
         <div className="max-w-4xl mx-auto">
           <motion.div
@@ -162,6 +181,7 @@ export default function About() {
             viewport={{ once: true }}
             transition={{ duration: 1 }}
           />
+
           <motion.p
             className="text-lg md:text-2xl italic font-bold md:pl-8"
             style={{
@@ -183,3 +203,4 @@ export default function About() {
     </div>
   );
 }
+    

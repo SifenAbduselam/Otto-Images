@@ -1,9 +1,4 @@
-// utils/fetchImages.js
-
-const BASE_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "https://otto-images-render.vercel.app";
+const BASE_URL = "https://otto-images-render.vercel.app";
 
 export async function fetchImagesByCategory(folder) {
   try {

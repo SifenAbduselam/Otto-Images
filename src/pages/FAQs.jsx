@@ -24,8 +24,9 @@ export default function FAQs() {
               How do I book a session?
             </h2>
             <p className="text-white leading-relaxed">
-              Contact us through our Contact page, call <span style={{ color: "#D4AF37" }}>+251 91 139 1856</span>, 
-              or fill out the Book Now form on our website.
+              You can book a session by contacting us through our Contact page, 
+              calling <span style={{ color: "#D4AF37" }}>+251 91 139 1856</span>, 
+              or filling out the form on the Book Now page.
             </p>
           </div>
 

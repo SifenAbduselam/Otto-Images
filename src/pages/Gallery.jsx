@@ -23,6 +23,7 @@ export default function Gallery() {
   useEffect(() => {
     const loadPreviews = async () => {
       const previewMap = {};
+
       for (const folder of folders) {
         try {
           const urls = await fetchImagesByCategory(folder);
@@ -34,6 +35,9 @@ export default function Gallery() {
       }
       setPreviewImages(previewMap);
     };
+
+
+
     loadPreviews();
   }, []);
 
@@ -102,3 +106,4 @@ export default function Gallery() {
     </div>
   );
 }
+
