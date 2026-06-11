@@ -1,29 +1,55 @@
 // src/pages/BookNow.jsx
 import { useRef } from "react";
-import emailjs from "emailjs-com";
 import Footer from "../components/Footer";
 import { ToastContainer, toast } from "react-toastify";
 import { motion } from "framer-motion";
 import "react-toastify/dist/ReactToastify.css";
+                                                                                                                                          
+export default function BookNow() {                                                                                                                                                                                                   
+  const form = useRef();                                                                                                                                                                                                           
+     const sendEmail = async (e) => {
+  e.preventDefault();
 
-export default function BookNow() {
-  const form = useRef();
+  const formData = new FormData(form.current);
 
-  const sendEmail = (e) => {
-    e.preventDefault();
+  const data = Object.fromEntries(
+    formData.entries()
+  );
 
-    emailjs.sendForm(
-      "service_seo35po",      // Your Service ID
-      "template_bc11k15",     // Your Template ID
-      form.current,
-      "7ffYr4tGxzM2EAD0k"    // Your Public Key
-    ).then(
-      () => toast.success("Booking sent! We'll contact you soon.", { position: "top-center" }),
-      () => toast.error("Failed to send. Please try again.", { position: "top-center" })
+  try {
+    const response = await fetch(
+      "/api/send-booking",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      }
     );
 
-    e.target.reset();
-  };
+    if (response.ok) {
+      toast.success(
+        "Booking sent! We'll contact you soon.",
+        { position: "top-center" }
+      );
+
+      e.target.reset();
+    } else {
+      toast.error(
+        "Failed to send booking.",
+        { position: "top-center" }
+      );
+    }
+
+  } catch {
+    toast.error(
+      "Something went wrong.",
+      { position: "top-center" }
+    );
+  }
+};                                                                                            
+   
 
   return (
     <div className="min-h-screen bg-black flex flex-col justify-between">
