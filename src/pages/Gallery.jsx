@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 import { fetchImagesByCategory } from "../utils/fetchImages";
 
+// Updated folders array including all your Cloudinary categories
 const folders = [
   "wedding",
   "shimglenna",
@@ -14,7 +15,15 @@ const folders = [
   "family",
   "engagement",
   "cultural",
-  "birthday"
+  "birthday",
+  "enshoshula",
+  "landscape",
+  "mels",
+  "kirstna",
+  "kusla",
+  "tekil",
+  "genfo",
+  "tifrkoreta"
 ];
 
 export default function Gallery() {
@@ -27,16 +36,15 @@ export default function Gallery() {
       for (const folder of folders) {
         try {
           const urls = await fetchImagesByCategory(folder);
-          previewMap[folder] = urls[0] || null;
+          previewMap[folder] = urls[0] || null; // Use first image as preview
         } catch (err) {
           console.error(`Failed to load preview for ${folder}:`, err);
           previewMap[folder] = null;
         }
       }
+
       setPreviewImages(previewMap);
     };
-
-
 
     loadPreviews();
   }, []);
@@ -106,4 +114,3 @@ export default function Gallery() {
     </div>
   );
 }
-

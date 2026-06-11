@@ -18,7 +18,7 @@ export default function Navbar() {
         {/* Logo */}
         <div>
           <img
-            src="/images/ww.jpg"
+            src="/images/otto.jpg"
             alt="Anjelo Pictures"
             className="w-60 h-20 object-contain -ml-10 -mt-3 -mb-6"
           />
