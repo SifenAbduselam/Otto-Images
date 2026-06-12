@@ -5,7 +5,27 @@ import { ToastContainer, toast } from "react-toastify";
 import { motion } from "framer-motion";
 import "react-toastify/dist/ReactToastify.css";
                                                                                                                                           
-export default function BookNow() {                                                                                                                                                                                                   
+export default function BookNow() {  
+  const services = [
+  "wedding",
+  "shimglenna",
+  "modeling",
+  "maternity",
+  "kids",
+  "graduation",
+  "family",
+  "engagement",
+  "cultural",
+  "birthday",
+  "enshoshula",
+  "landscape",
+  "mels",
+  "kirstna",
+  "kusla",
+  "tekil",
+  "genfo",
+  "tifrkoreta"
+];
   const form = useRef();                                                                                                                                                                                                           
      const sendEmail = async (e) => {
   e.preventDefault();
@@ -17,16 +37,13 @@ export default function BookNow() {
   );
 
   try {
-    const response = await fetch(
-      "/api/send-booking",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      }
-    );
+    const response = await fetch("http://localhost:3000/send-booking", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(data)
+});
 
     if (response.ok) {
       toast.success(
@@ -105,13 +122,19 @@ export default function BookNow() {
           </div>
 
           {/* Service input as typeable text */}
-          <input
-            type="text"
-            name="service"
-            placeholder="Service you want"
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
+          <select
+  name="service"
+  required
+  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+>
+  <option value="">Select Service</option>
+
+  {services.map((s) => (
+    <option key={s} value={s}>
+      {s}
+    </option>
+  ))}
+</select>
 
           <textarea
             name="message"
