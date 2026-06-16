@@ -16,7 +16,12 @@ export default function AdminLayout({ children }) {
         <h2 style={styles.logo}>Otto Studio</h2>
 
 
-        <button
+     
+
+        <Link style={link(location.pathname === "/admin")} to="/admin">
+          Dashboard
+        </Link>
+              <button
   onClick={handleLogout}
   style={{
     marginTop: "20px",
@@ -29,9 +34,7 @@ export default function AdminLayout({ children }) {
   Logout
 </button>
 
-        <Link style={link(location.pathname === "/admin")} to="/admin">
-          Dashboard
-        </Link>
+       
 
         
       </div>

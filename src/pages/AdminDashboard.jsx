@@ -4,7 +4,6 @@ import AdminLayout from "../components/AdminLayout";
 export default function AdminDashboard() {
   const [bookings, setBookings] = useState([]);
   const [filter, setFilter] = useState("all");
-  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     fetchBookings();
