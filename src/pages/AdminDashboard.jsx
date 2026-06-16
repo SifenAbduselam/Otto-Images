@@ -4,6 +4,7 @@ import AdminLayout from "../components/AdminLayout";
 export default function AdminDashboard() {
   const [bookings, setBookings] = useState([]);
   const [filter, setFilter] = useState("all");
+  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     fetchBookings();
@@ -16,6 +17,8 @@ export default function AdminDashboard() {
       .order("id", { ascending: false });
 
     setBookings(data || []);
+
+
   };
 
   const updateStatus = async (id, status) => {
@@ -27,6 +30,12 @@ export default function AdminDashboard() {
     await supabase.from("bookings").delete().eq("id", id);
     fetchBookings();
   };
+
+  const handleLogout = async () => {
+  await supabase.auth.signOut();
+
+  window.location.href = "/admin/login";
+};
 
   const filtered = useMemo(() => {
     if (filter === "all") return bookings;
