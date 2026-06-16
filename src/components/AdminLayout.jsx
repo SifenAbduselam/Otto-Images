@@ -1,7 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
+import { supabase } from "../lib/supabaseClient";
 
 export default function AdminLayout({ children }) {
   const location = useLocation();
+  const handleLogout = async () => {
+  await supabase.auth.signOut();
+  window.location.href = "/admin/login";
+};
 
   return (
     <div style={styles.container}>
@@ -10,17 +15,25 @@ export default function AdminLayout({ children }) {
       <div style={styles.sidebar}>
         <h2 style={styles.logo}>Otto Studio</h2>
 
+
+        <button
+  onClick={handleLogout}
+  style={{
+    marginTop: "20px",
+    padding: "10px",
+    borderRadius: "8px",
+    border: "none",
+    cursor: "pointer",
+  }}
+>
+  Logout
+</button>
+
         <Link style={link(location.pathname === "/admin")} to="/admin">
           Dashboard
         </Link>
 
-        <Link style={link(location.pathname === "/admin/bookings")} to="/admin/bookings">
-          Bookings
-        </Link>
-
-        <Link style={link(location.pathname === "/admin/settings")} to="/admin/settings">
-          Settings
-        </Link>
+        
       </div>
 
       {/* MAIN */}
