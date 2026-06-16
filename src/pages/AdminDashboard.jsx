@@ -174,6 +174,7 @@ export default function AdminDashboard() {
 const styles = {
   page: {
     padding: "30px",
+    paddingTop: "90px",
     background: "#0b1220",
     minHeight: "100vh",
     color: "#e5e7eb",
