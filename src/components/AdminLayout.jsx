@@ -21,14 +21,17 @@ export default function AdminLayout({ children }) {
         <Link style={link(location.pathname === "/admin")} to="/admin">
           Dashboard
         </Link>
-              <button
+      <button
   onClick={handleLogout}
   style={{
-    marginTop: "20px",
-    padding: "10px",
-    borderRadius: "8px",
+    marginTop: "auto",
+    background: "#ef4444",
+    color: "white",
     border: "none",
+    borderRadius: "8px",
+    padding: "8px 12px",
     cursor: "pointer",
+    fontSize: "14px",
   }}
 >
   Logout
@@ -63,7 +66,7 @@ const styles = {
     borderRight: "1px solid #1f2937",
     display: "flex",
     flexDirection: "column",
-    gap: "15px",
+   
   },
 
   logo: {
