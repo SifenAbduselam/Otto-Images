@@ -52,6 +52,7 @@ export default function AdminDashboard() {
   };
 
   return (
+    <AdminLayout>
     <div style={styles.page}>
       
       {/* HEADER */}
@@ -150,6 +151,7 @@ export default function AdminDashboard() {
         ))}
       </div>
     </div>
+    </AdminLayout>
   );
 }
 
