@@ -56,6 +56,12 @@ export default function AdminDashboard() {
     <div style={styles.page}>
       
       {/* HEADER */}
+      <div style={{ marginBottom: "20px" }}>
+  <h1 style={{ margin: 0 }}>Dashboard</h1>
+  <p style={{ color: "#94a3b8" }}>
+    Manage bookings and client requests
+  </p>
+</div>
       <div style={styles.header}>
         <h1 style={styles.title}>Otto Studio Admin</h1>
         <p style={styles.subtitle}>Photography booking management system</p>
