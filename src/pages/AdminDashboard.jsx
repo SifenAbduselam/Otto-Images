@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
+ import { useNavigate } from "react-router-dom";
 import AdminLayout from "../components/AdminLayout";
 export default function AdminDashboard() {
   const [bookings, setBookings] = useState([]);
@@ -30,10 +31,13 @@ export default function AdminDashboard() {
     fetchBookings();
   };
 
-  const handleLogout = async () => {
-  await supabase.auth.signOut();
+ 
 
-  window.location.href = "/admin/login";
+const navigate = useNavigate();
+
+const handleLogout = async () => {
+  await supabase.auth.signOut();
+  navigate("/admin/login");
 };
 
   const filtered = useMemo(() => {
