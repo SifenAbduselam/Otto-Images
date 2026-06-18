@@ -19,6 +19,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 export default function App() {
   return (
     <>
+    console.log("🔥 NEW DEPLOY TEST");
       <Navbar />
       <ScrollToTop />
 
