@@ -33,8 +33,11 @@ export default function BookNow() {
   const formData = new FormData(form.current);
 
   const data = Object.fromEntries(
-    formData.entries()
-  );
+    formData.entries());
+     if (!data.first_name || !data.last_name || !data.phone || !data.service) {
+    toast.error("Please fill required fields");
+    return;
+  }
 
   try {
     const response = await fetch("https://otto-backend-k6qx.onrender.com/send-booking", {
@@ -86,6 +89,7 @@ export default function BookNow() {
         <form
           ref={form}
           onSubmit={sendEmail}
+
           className="bg-white text-gray-800 rounded-xl shadow-lg p-6 space-y-4 w-full max-w-3xl mt-12"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
