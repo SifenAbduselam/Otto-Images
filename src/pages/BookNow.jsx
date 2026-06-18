@@ -40,7 +40,8 @@ export default function BookNow() {
     const response = await fetch("https://otto-backend-k6qx.onrender.com/send-booking", {
   method: "POST",
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "x-secret": "YOUR_SECRET_HERE"
   },
   body: JSON.stringify(data)
 });
