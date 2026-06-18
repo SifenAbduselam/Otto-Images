@@ -7,6 +7,16 @@ export default function ProtectedRoute({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+  const { data } = supabase.auth.onAuthStateChange((event) => {
+    if (event === "SIGNED_OUT") {
+      setSession(null);
+    }
+  });
+
+  return () => data.subscription.unsubscribe();
+}, []);
+
+  useEffect(() => {
     let mounted = true;
 
     const getSession = async () => {
