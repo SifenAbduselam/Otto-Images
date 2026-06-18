@@ -41,7 +41,7 @@ export default function BookNow() {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    "x-secret": "YOUR_SECRET_HERE"
+    "x-secret": "otto_secure_8392_kd93jsl"
   },
   body: JSON.stringify(data)
 });
