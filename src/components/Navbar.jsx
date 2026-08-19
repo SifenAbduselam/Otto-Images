@@ -1,3 +1,5 @@
+// src/components/Navbar.jsx
+
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -14,8 +16,6 @@ export default function Navbar() {
   ];
 
   const isHome = location.pathname === "/";
-  // On the homepage the navbar sits over the hero image and starts
-  // transparent, then solidifies once the user scrolls past it.
   const transparent = isHome && !scrolled && !isMenuOpen;
 
   useEffect(() => {
@@ -35,19 +35,19 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-colors duration-500 ${
+      className={`fixed w-full z-50 transition-all duration-500 ${
         transparent
-          ? "bg-transparent"
-          : "bg-black/95 backdrop-blur-sm shadow-md"
+          ? "bg-gradient-to-b from-black/80 via-black/40 to-transparent"
+          : "bg-black/95 backdrop-blur-md shadow-lg"
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between px-6 py-4">
+      <div className="container mx-auto flex items-center justify-between px-6 py-4 md:py-6">
         {/* Logo */}
         <Link to="/" className="flex items-center">
           <img
             src="/images/otto.png"
             alt="Otto Images"
-            className="h-12 md:h-14 w-auto object-contain"
+            className="h-10 md:h-12 w-auto object-contain brightness-125"
           />
         </Link>
 
@@ -57,10 +57,10 @@ export default function Navbar() {
             <Link
               key={link.name}
               to={link.path}
-              className={`uppercase tracking-[0.2em] text-xs font-medium transition-all duration-300 pb-1 border-b-2 ${
+              className={`uppercase tracking-[0.25em] text-[11px] font-medium transition-all duration-300 pb-1 border-b-2 ${
                 location.pathname === link.path
                   ? "text-white border-[#C8A35F]"
-                  : "text-white/90 border-transparent hover:text-white hover:border-[#C8A35F]"
+                  : "text-white/80 border-transparent hover:text-white hover:border-[#C8A35F]"
               }`}
             >
               {link.name}
@@ -68,13 +68,27 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Book Now */}
-        <Link
-          to="/book-now"
-          className="hidden md:inline-block px-6 py-2 uppercase tracking-[0.2em] text-xs font-medium border border-[#C8A35F] text-white transition-all duration-300 hover:bg-[#C8A35F] hover:text-black"
-        >
-          Book Now
-        </Link>
+        {/* Right side: Socials & Book Now */}
+        <div className="hidden md:flex items-center space-x-6">
+          <div className="flex items-center space-x-4 text-white/80 text-sm">
+            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-[#C8A35F] transition-colors">
+              <i className="fab fa-instagram"></i> IG
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-[#C8A35F] transition-colors">
+              <i className="fab fa-facebook-f"></i> FB
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noreferrer" className="hover:text-[#C8A35F] transition-colors">
+              <i className="fab fa-youtube"></i> YT
+            </a>
+          </div>
+
+          <Link
+            to="/book-now"
+            className="px-6 py-2.5 uppercase tracking-[0.2em] text-[10px] font-semibold border border-[#C8A35F] text-white transition-all duration-300 hover:bg-[#C8A35F] hover:text-black shadow-sm"
+          >
+            Book Now
+          </Link>
+        </div>
 
         {/* Mobile Menu Button */}
         <button
@@ -95,17 +109,17 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-black border-t border-white/10">
-          <div className="px-6 py-6 space-y-5">
+        <div className="md:hidden bg-black/95 backdrop-blur-xl border-t border-white/10">
+          <div className="px-6 py-8 space-y-6 text-center">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
                 onClick={() => setIsMenuOpen(false)}
-                className={`block uppercase tracking-[0.2em] text-sm font-medium transition-all duration-300 pb-1 border-b ${
+                className={`block uppercase tracking-[0.2em] text-sm font-medium transition-all duration-300 pb-2 border-b ${
                   location.pathname === link.path
                     ? "text-white border-[#C8A35F]"
-                    : "text-white/90 border-transparent hover:text-white hover:border-[#C8A35F]"
+                    : "text-white/80 border-transparent hover:text-white"
                 }`}
               >
                 {link.name}
@@ -114,7 +128,7 @@ export default function Navbar() {
             <Link
               to="/book-now"
               onClick={() => setIsMenuOpen(false)}
-              className="block px-6 py-3 uppercase tracking-[0.2em] text-sm font-medium border border-[#C8A35F] text-white text-center transition-all duration-300 hover:bg-[#C8A35F] hover:text-black"
+              className="block w-full py-3 uppercase tracking-[0.2em] text-xs font-semibold border border-[#C8A35F] text-white bg-[#C8A35F]/10 text-center transition-all duration-300 hover:bg-[#C8A35F] hover:text-black"
             >
               Book Now
             </Link>
