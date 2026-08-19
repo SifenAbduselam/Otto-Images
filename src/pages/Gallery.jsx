@@ -50,58 +50,71 @@ export default function Gallery() {
   }, []);
 
   return (
-    <div className="bg-black text-white pt-28 px-6">
-      <motion.h1
-        className="text-6xl font-bold text-center mb-12 text-[#C8A35F]"
-        initial={{ opacity: 0, y: -100, scale: 0.8 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 1 }}
-      >
-        Gallery
-      </motion.h1>
+    <div className="bg-black text-white pt-32 md:pt-40 px-6">
+      <div className="text-center mb-20 md:mb-28">
+        <motion.span
+          className="block uppercase tracking-[0.35em] text-xs text-[#C8A35F] mb-4"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          Otto Images
+        </motion.span>
+        <motion.h1
+          className="font-serif text-5xl md:text-6xl"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.1 }}
+        >
+          Gallery
+        </motion.h1>
+      </div>
 
-      <div className="flex flex-col gap-24">
+      <div className="flex flex-col gap-28 md:gap-36 max-w-6xl mx-auto pb-8">
         {folders.map((folder, index) => (
           <motion.div
             key={folder}
-            className={`flex flex-col md:flex-row items-center justify-between gap-6 ${
+            className={`flex flex-col md:flex-row items-center gap-10 md:gap-16 ${
               index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
             }`}
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.5 }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
           >
             {previewImages[folder] ? (
               <motion.img
                 src={previewImages[folder]}
                 alt={folder}
-                className="w-full md:w-1/2 h-auto object-cover rounded-lg shadow-lg"
-                initial={{ opacity: 0, scale: 0.8 }}
+                className="w-full md:w-1/2 h-[340px] md:h-[440px] object-cover"
+                initial={{ opacity: 0, scale: 1.05 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: false, amount: 0.5 }}
-                transition={{ duration: 0.7 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.9 }}
               />
             ) : (
-              <motion.div className="w-full md:w-1/2 h-64 bg-gray-800 flex items-center justify-center text-gray-500 text-lg rounded-lg">
+              <div className="w-full md:w-1/2 h-[340px] md:h-[440px] bg-white/5 flex items-center justify-center text-gray-500 text-lg">
                 No Preview Available
-              </motion.div>
+              </div>
             )}
 
             <motion.div
-              className="md:w-1/2 flex flex-col justify-center gap-4"
-              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+              className="md:w-1/2 flex flex-col gap-5"
+              initial={{ opacity: 0, x: index % 2 === 0 ? 40 : -40 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.5 }}
-              transition={{ duration: 0.7 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
             >
-              <h2 className="text-3xl font-bold text-[#C8A35F] capitalize">{folder}</h2>
-              <p className="text-white text-lg">
+              <span className="uppercase tracking-[0.25em] text-xs text-[#C8A35F]">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h2 className="font-serif text-3xl md:text-4xl capitalize">{folder}</h2>
+              <p className="text-gray-400 leading-relaxed">
                 Explore stunning {folder} moments captured beautifully.
               </p>
               <Link
                 to={`/gallery/${folder}`}
-                className="inline-block px-3 py-1 uppercase tracking-wider text-xs font-semibold border-2 border-[#C8A35F] text-white transition-all duration-300 active:scale-95 hover:border-[#C8A35F] hover:scale-105 rounded"
+                className="inline-block w-fit mt-2 px-6 py-2 uppercase tracking-[0.2em] text-xs font-medium border border-[#C8A35F] text-white transition-all duration-300 hover:bg-[#C8A35F] hover:text-black"
               >
                 View More
               </Link>

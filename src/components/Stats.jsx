@@ -1,72 +1,77 @@
 // src/components/Stats.jsx
+// Editorial "story/intro" section. Content preserved from the original —
+// only the presentation has changed.
 import { motion } from "framer-motion";
+import { storyImage } from "../config/media";
 
 export default function Stats() {
-  const container = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.25 } },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20, scale: 0.8, color: "#FFF" },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      scale: [0.8, 1.1, 1],
-      color: ["#C8A35F", "#FFD700", "#C8A35F"], 
-      transition: { duration: 0.8, ease: "easeInOut" },
+  const themes = [
+    {
+      title: "The Quiet Moments",
+      desc: "Stillness before the storm, a breath held, a smile forming — we find beauty in what's almost missed.",
     },
-  };
+    {
+      title: "Who You Are",
+      desc: "Not just how you look, but how you feel — your strength, grace, and truth, revealed in a single frame.",
+    },
+    {
+      title: "Time Passing",
+      desc: "The glow of pregnancy, the hands of a parent, the eyes of a child — we preserve what won't stay.",
+    },
+    {
+      title: "Everyday Poetry",
+      desc: "Light on skin, fabric in motion, laughter caught mid-air — life, not staged, but seen.",
+    },
+  ];
 
   return (
-    <section className="bg-[#0a0501] text-center relative">
-      {/* Thin line separator */}
-      <div className="w-full border-t border-gray-300 absolute top-0 left-0"></div>
-
-      <div className="container mx-auto px-6 py-16">
-        {/* Heading */}
-        <motion.h2
-          className="text-3xl md:text-4xl font-serif mb-12 text-[#C8A35F]"
-          initial={{ opacity: 0, y: 30, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, scale: [0.95, 1.05, 1] }}
-          viewport={{ once: false, amount: 0.5 }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-        >
-          What We Capture
-        </motion.h2>
-
-        {/* Universal Photography Themes */}
+    <section className="bg-black relative py-24 md:py-32 px-6">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+        {/* Editorial image */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 gap-10 text-[#C8A35F] max-w-4xl mx-auto"
-          variants={container}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: false, amount: 0.5 }}
+          className="relative h-[420px] md:h-[560px] overflow-hidden order-2 md:order-1"
+          initial={{ opacity: 0, scale: 1.04 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 1.1, ease: "easeOut" }}
         >
-          {[
-            { 
-              title: "The Quiet Moments", 
-              desc: "Stillness before the storm, a breath held, a smile forming — we find beauty in what’s almost missed." 
-            },
-            { 
-              title: "Who You Are", 
-              desc: "Not just how you look, but how you feel — your strength, grace, and truth, revealed in a single frame." 
-            },
-            { 
-              title: "Time Passing", 
-              desc: "The glow of pregnancy, the hands of a parent, the eyes of a child — we preserve what won’t stay." 
-            },
-            { 
-              title: "Everyday Poetry", 
-              desc: "Light on skin, fabric in motion, laughter caught mid-air — life, not staged, but seen." 
-            },
-          ].map((theme, i) => (
-            <motion.div key={i} className="flex flex-col items-center p-4" variants={item}>
-              <motion.h3 className="text-2xl font-bold mb-3">{theme.title}</motion.h3>
-              <motion.p className="text-gray-300 text-lg leading-relaxed">{theme.desc}</motion.p>
-            </motion.div>
-          ))}
+          <img
+            src={storyImage}
+            alt="Otto Images story"
+            className="w-full h-full object-cover"
+          />
         </motion.div>
+
+        {/* Text */}
+        <div className="order-1 md:order-2">
+          <motion.span
+            className="block uppercase tracking-[0.35em] text-xs text-[#C8A35F] mb-5"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.8 }}
+          >
+            What We Capture
+          </motion.span>
+
+          <div className="space-y-10">
+            {themes.map((theme, i) => (
+              <motion.div
+                key={theme.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.7, delay: i * 0.12, ease: "easeOut" }}
+                className="border-l border-white/15 pl-6"
+              >
+                <h3 className="font-serif text-xl md:text-2xl text-white mb-2">
+                  {theme.title}
+                </h3>
+                <p className="text-gray-400 leading-relaxed">{theme.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

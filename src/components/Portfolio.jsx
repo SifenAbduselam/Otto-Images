@@ -68,30 +68,34 @@ export default function Portfolio() {
   const fullBottom = [...Array(4)].flatMap(() => bottomImages);
 
   const headingVariants = {
-    hidden: { opacity: 0, y: 30, color: "#C8A35F" },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      color: "#D4AF37", // elegant gold shade
-      transition: { duration: 1, ease: "easeOut" }
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1, ease: "easeOut" },
     },
   };
 
   return (
     <section className="bg-black py-16 px-0 relative">
       {/* Top horizontal line */}
-      <div className="w-full border-t border-white mb-6"></div>
+      <div className="w-full border-t border-white/10 mb-6"></div>
 
       {/* Heading with animation */}
-      <motion.h2
-        className="text-3xl md:text-4xl font-serif uppercase tracking-wider text-center mb-12 mt-12 text-white"
+      <motion.div
+        className="text-center mb-12 mt-8"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.5 }}
+        viewport={{ once: true, amount: 0.5 }}
         variants={headingVariants}
       >
-        OUR WORKS
-      </motion.h2>
+        <span className="block uppercase tracking-[0.35em] text-xs text-[#C8A35F] mb-3">
+          Portfolio
+        </span>
+        <h2 className="text-3xl md:text-4xl font-serif uppercase tracking-wider text-white">
+          Our Works
+        </h2>
+      </motion.div>
 
       {/* Top Row */}
       <div
@@ -128,7 +132,7 @@ export default function Portfolio() {
       </div>
 
       {/* Bottom horizontal line */}
-      <div className="w-full border-t border-white mt-12"></div>
+      <div className="w-full border-t border-white/10 mt-12"></div>
     </section>
   );
 }
