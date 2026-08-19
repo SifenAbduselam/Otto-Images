@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
-// Array of your 5 background videos
 const heroVideos = [
   "/videos/video-1.mp4",
   "/videos/video-2.mp4",
@@ -18,145 +17,84 @@ export default function Hero() {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const videoRef = useRef(null);
 
-  // Handle automatic video switching when one video finishes playing
   const handleVideoEnded = () => {
     setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % heroVideos.length);
   };
 
-  // Force play video reference when index updates
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.load();
-      videoRef.current.play().catch((error) => {
-        console.log("Autoplay prevented:", error);
-      });
+      videoRef.current.play().catch((err) => console.log("Autoplay blocked:", err));
     }
   }, [currentVideoIndex]);
 
   return (
-    <main className="relative w-full h-[100svh] bg-black text-white overflow-hidden flex items-center justify-center">
+    <main className="relative w-full h-[100svh] bg-black text-white overflow-hidden">
       
-      {/* =====================================================
-          BACKGROUND VIDEO CAROUSEL CONTAINER
-      ===================================================== */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden z-0">
+      {/* Background Video Layer */}
+      <div className="absolute inset-0 z-0">
         <AnimatePresence mode="wait">
           <motion.video
             key={currentVideoIndex}
             ref={videoRef}
             src={heroVideos[currentVideoIndex]}
-            autoPlay
-            muted
-            playsInline
+            autoPlay muted playsInline
             onEnded={handleVideoEnded}
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+            transition={{ duration: 1.5 }}
             className="absolute inset-0 w-full h-full object-cover grayscale brightness-90 contrast-110"
           />
         </AnimatePresence>
-
-        {/* Cinematic Dark & Gradient Overlays for Readability */}
-        <div className="absolute inset-0 bg-black/40 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/40" /> 
       </div>
 
-      {/* =====================================================
-          LEFT SIDE: VERTICAL SOCIAL ICONS (Inspired by design)
-      ===================================================== */}
-      <div className="absolute left-6 md:left-10 bottom-12 hidden lg:flex flex-col items-center space-y-6 z-30 text-white/70">
-        <span className="text-[10px] uppercase tracking-[0.3em] [writing-mode:vertical-lr] mb-2 text-white/50">
-          Follow Us
-        </span>
-        <span className="h-12 w-px bg-white/30 mb-2" />
-        <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-[#C8A35F] transition-colors text-xs">
-          IG
-        </a>
-        <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-[#C8A35F] transition-colors text-xs">
-          FB
-        </a>
-        <a href="https://youtube.com" target="_blank" rel="noreferrer" className="hover:text-[#C8A35F] transition-colors text-xs">
-          YT
-        </a>
-      </div>
-
-      {/* =====================================================
-          CENTER CONTENT (New Editorial Inspiration)
-      ===================================================== */}
-      <div className="relative z-20 text-center px-6 max-w-4xl mx-auto mt-16">
+      {/* Layout Container */}
+      <div className="relative z-20 h-full flex flex-col justify-between py-12 px-6 md:px-12">
         
-        {/* Subtitle tag */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-[#C8A35F] font-semibold mb-4"
-        >
-          Otto Images / Cinematic Storytelling
-        </motion.div>
+        {/* UPPER PART: Branding / Logo Text */}
+        <div className="flex flex-col items-center pt-10">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-semibold text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
+          >
+            Otto Images / Cinematic Storytelling
+          </motion.div>
+        </div>
 
-        {/* Main Headline */}
-        <motion.h1
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-wider text-white uppercase leading-[1.1] drop-shadow-lg"
-        >
-          Timestepped Romance <br />
-          <span className="text-white/80 font-light italic lowercase text-2xl sm:text-4xl md:text-5xl">
-            & cinematic soul
-          </span>
-        </motion.h1>
-
-        {/* Supporting description */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.6 }}
-          className="mt-6 text-xs sm:text-sm md:text-base text-white/70 max-w-xl mx-auto font-light tracking-wide leading-relaxed"
-        >
-          Crafting timeless visual heirlooms from your most cherished moments. Preserving genuine emotion with fine art elegance.
-        </motion.p>
-
-        {/* Action Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.8 }}
-          className="mt-8 flex justify-center items-center gap-6"
-        >
-          <button
+        {/* LOWER PART: Book Now Button */}
+        <div className="flex flex-col items-center pb-10">
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
             onClick={() => navigate("/book-now")}
-            className="px-8 py-3.5 uppercase tracking-[0.25em] text-xs font-medium border border-white text-white bg-black/30 backdrop-blur-md transition-all duration-300 hover:bg-white hover:text-black shadow-xl"
+            className="px-6 py-2 uppercase tracking-[0.2em] text-[9px] md:text-[10px] font-medium border border-white/50 text-white hover:bg-white hover:text-black transition-all duration-500 backdrop-blur-sm shadow-[0_4px_15px_rgba(0,0,0,0.3)]"
           >
             Book Your Session
-          </button>
-        </motion.div>
+          </motion.button>
+        </div>
+
       </div>
 
-      {/* =====================================================
-          RIGHT SIDE: SCROLL DOWN INDICATOR
-      ===================================================== */}
-      <div className="absolute right-6 md:right-10 bottom-12 hidden lg:flex flex-col items-center space-y-4 z-30 text-white/60">
-        <span className="text-[9px] uppercase tracking-[0.3em] [writing-mode:vertical-lr] text-white/50">
-          Scroll Down
-        </span>
+      {/* SCROLL DOWN INDICATOR (Right) */}
+      <div className="absolute right-6 md:right-10 bottom-12 hidden lg:flex flex-col items-center space-y-4 z-30">
+        <span className="text-[9px] uppercase tracking-[0.3em] [writing-mode:vertical-lr] text-white/50">Scroll Down</span>
         <motion.span
           animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+          transition={{ repeat: Infinity, duration: 1.5 }}
           className="h-10 w-px bg-[#C8A35F]"
         />
       </div>
 
-      {/* =====================================================
-          BOTTOM LEFT: FLOATING QUICK CONTACT BUTTON (Like reference)
-      ===================================================== */}
-      <div className="absolute left-6 bottom-6 md:left-10 md:bottom-10 z-30 lg:hidden">
+      {/* QUICK CONTACT (Bottom Left Mobile) */}
+      <div className="absolute left-6 bottom-6 z-30 lg:hidden">
         <button
           onClick={() => navigate("/contact")}
-          className="w-12 h-12 rounded-full bg-[#C8A35F] text-black flex items-center justify-center shadow-lg hover:scale-105 transition-transform"
-          aria-label="Contact Us"
+          className="w-10 h-10 rounded-full bg-[#C8A35F] text-black flex items-center justify-center shadow-lg"
         >
           📞
         </button>

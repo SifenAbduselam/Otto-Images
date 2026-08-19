@@ -37,7 +37,7 @@ export default function Navbar() {
     <nav
       className={`fixed w-full z-50 transition-all duration-500 ${
         transparent
-          ? "bg-gradient-to-b from-black/80 via-black/40 to-transparent"
+          ? "bg-gradient-to-b from-black/85 via-black/40 to-transparent"
           : "bg-black/95 backdrop-blur-md shadow-lg"
       }`}
     >
@@ -51,8 +51,8 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center space-x-10">
+        {/* Desktop Nav - Pushed to the right using ml-auto */}
+        <div className="hidden md:flex items-center space-x-12 ml-auto pr-6">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -66,28 +66,6 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
-        </div>
-
-        {/* Right side: Socials & Book Now */}
-        <div className="hidden md:flex items-center space-x-6">
-          <div className="flex items-center space-x-4 text-white/80 text-sm">
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-[#C8A35F] transition-colors">
-              <i className="fab fa-instagram"></i> IG
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-[#C8A35F] transition-colors">
-              <i className="fab fa-facebook-f"></i> FB
-            </a>
-            <a href="https://youtube.com" target="_blank" rel="noreferrer" className="hover:text-[#C8A35F] transition-colors">
-              <i className="fab fa-youtube"></i> YT
-            </a>
-          </div>
-
-          <Link
-            to="/book-now"
-            className="px-6 py-2.5 uppercase tracking-[0.2em] text-[10px] font-semibold border border-[#C8A35F] text-white transition-all duration-300 hover:bg-[#C8A35F] hover:text-black shadow-sm"
-          >
-            Book Now
-          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -125,13 +103,6 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <Link
-              to="/book-now"
-              onClick={() => setIsMenuOpen(false)}
-              className="block w-full py-3 uppercase tracking-[0.2em] text-xs font-semibold border border-[#C8A35F] text-white bg-[#C8A35F]/10 text-center transition-all duration-300 hover:bg-[#C8A35F] hover:text-black"
-            >
-              Book Now
-            </Link>
           </div>
         </div>
       )}
