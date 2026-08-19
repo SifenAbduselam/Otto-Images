@@ -25,7 +25,7 @@ function usePrefersReducedMotion() {
 }
 
 /* =========================================================
-   CINEMATIC IMAGE PANEL (Images set to Black & White)
+   CINEMATIC IMAGE PANEL (Sharper, High-Contrast Black & White)
 ========================================================= */
 
 function CyclingPanel({
@@ -57,8 +57,8 @@ function CyclingPanel({
           src={images[index]}
           alt=""
           draggable="false"
-          /* 'grayscale' forces the image to black and white */
-          className="absolute inset-0 w-full h-full object-cover grayscale brightness-90 contrast-110"
+          /* Enhanced contrast and crisp cinematic grayscale treatment */
+          className="absolute inset-0 w-full h-full object-cover grayscale brightness-95 contrast-125"
           initial={{
             opacity: 0,
             scale: 1.05,
@@ -83,8 +83,8 @@ function CyclingPanel({
         />
       </AnimatePresence>
 
-      {/* Cinematic tint overlay */}
-      <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+      {/* Cinematic tint overlay for extra depth */}
+      <div className="absolute inset-0 bg-black/25 pointer-events-none" />
     </div>
   );
 }
@@ -149,33 +149,33 @@ export default function Hero() {
             initial="hidden"
             animate="visible"
             variants={slideFromLeft}
-            className="hidden lg:flex items-center gap-3 text-[9px] uppercase tracking-[0.3em] text-white/60"
+            className="hidden lg:flex items-center gap-3 text-[9px] uppercase tracking-[0.35em] text-white/60 font-medium"
           >
             <span className="h-px w-6 bg-white/40" />
             <span>Otto Images / Photography & Cinematography</span>
           </motion.div>
 
-          {/* Main Content with classic serif typography */}
+          {/* Main Content: Exactly 2 sharp lines of text */}
           <div className="my-auto overflow-hidden py-2">
             
-            {/* Headline part 1 - slides in slowly from left */}
+            {/* Line 1 - Sharp Serif, slides in from left */}
             <motion.h1
               initial="hidden"
               animate="visible"
               variants={slideFromLeft}
               transition={{ delay: 0.15, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-              className="font-serif font-normal text-white text-xl sm:text-3xl lg:text-[2.6rem] xl:text-[3rem] leading-[1.15] tracking-tight"
+              className="font-serif font-normal text-white text-xl sm:text-3xl lg:text-[2.6rem] xl:text-[3rem] leading-[1.15] tracking-tight antialiased"
             >
               When memories blur and the day feels like a dream,
             </motion.h1>
 
-            {/* Headline part 2 - slides in slowly from right */}
+            {/* Line 2 - Sharp Serif, slides in from right */}
             <motion.div
               initial="hidden"
               animate="visible"
               variants={slideFromRight}
               transition={{ delay: 0.35, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-2 font-serif font-normal text-white/70 text-lg sm:text-2xl lg:text-[2.2rem] xl:text-[2.5rem] leading-[1.15] tracking-tight"
+              className="mt-2 font-serif font-normal text-white/80 text-lg sm:text-2xl lg:text-[2.2rem] xl:text-[2.5rem] leading-[1.15] tracking-tight antialiased"
             >
               these photos bring your story back to life.
             </motion.div>
@@ -186,11 +186,11 @@ export default function Hero() {
               animate="visible"
               variants={slideFromLeft}
               transition={{ delay: 0.55, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-5 sm:mt-6"
+              className="mt-6 sm:mt-7"
             >
               <button
                 onClick={() => navigate("/book-now")}
-                className="group inline-flex items-center gap-3 text-[10px] sm:text-xs uppercase tracking-[0.25em] text-white font-medium border-b border-white/40 pb-1 hover:border-white transition-colors duration-300"
+                className="group inline-flex items-center gap-3 text-[10px] sm:text-xs uppercase tracking-[0.3em] text-white font-medium border-b border-white/50 pb-1 hover:border-white transition-colors duration-300"
               >
                 <span>Book Now</span>
                 <span className="transform transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -204,7 +204,7 @@ export default function Hero() {
             animate="visible"
             variants={slideFromLeft}
             transition={{ delay: 0.75, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[9px] uppercase tracking-[0.2em] text-white/40 pt-2 lg:pt-0"
+            className="text-[9px] uppercase tracking-[0.25em] text-white/40 pt-2 lg:pt-0 font-medium"
           >
             Otto Images © {new Date().getFullYear()}
           </motion.div>
@@ -222,7 +222,7 @@ export default function Hero() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.8 }}
-            className="text-[10px] uppercase tracking-[0.35em] text-white/45"
+            className="text-[10px] uppercase tracking-[0.35em] text-white/45 font-medium"
           >
             The Otto Images Approach
           </motion.span>
@@ -232,7 +232,7 @@ export default function Hero() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.9, ease: "easeOut" }}
-            className="mt-6 font-serif text-2xl leading-relaxed text-white sm:text-3xl md:text-4xl"
+            className="mt-6 font-serif text-2xl leading-relaxed text-white sm:text-3xl md:text-4xl antialiased"
           >
             We don't simply take photographs.
             <br />
@@ -244,7 +244,7 @@ export default function Hero() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.9, delay: 0.15, ease: "easeOut" }}
-            className="mx-auto mt-6 max-w-2xl text-sm md:text-base leading-8 text-white/50"
+            className="mx-auto mt-6 max-w-2xl text-sm md:text-base leading-8 text-white/50 font-light"
           >
             At Otto Images, every frame is created with intention. From intimate portraits to celebrations and cinematic productions, we create imagery that remains meaningful long after the moment has passed.
           </motion.p>
@@ -257,7 +257,7 @@ export default function Hero() {
             whileHover={{ backgroundColor: "#ffffff", color: "#000000" }}
             whileTap={{ scale: 0.97 }}
             onClick={() => navigate("/book-now")}
-            className="mt-8 border border-white/30 px-8 py-3.5 text-[10px] md:text-xs uppercase tracking-[0.25em] text-white transition-colors duration-300"
+            className="mt-8 border border-white/30 px-8 py-3.5 text-[10px] md:text-xs uppercase tracking-[0.25em] text-white transition-colors duration-300 font-medium"
           >
             Start Your Story
           </motion.button>
