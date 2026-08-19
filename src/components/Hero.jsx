@@ -57,11 +57,6 @@ function CyclingPanel({
           src={images[index]}
           alt=""
           draggable="false"
-          /* 
-            NOTE: 
-            - Use "object-cover" if you want the image to completely fill the box (may crop edges).
-            - Use "object-contain" if you want the full image to show without any cropping at all.
-          */
           className="absolute inset-0 w-full h-full object-cover grayscale brightness-90 contrast-110"
           initial={{
             opacity: 0,
@@ -121,16 +116,16 @@ export default function Hero() {
   return (
     <main className="bg-black text-white selection:bg-white selection:text-black">
       {/* =====================================================
-          RESPONSIVE HERO SECTION
-          Mobile: Stacked (Images top 50vh, Text bottom 50vh)
-          Desktop: 50/50 Side-by-side full screen (lg:h-screen)
+          RESPONSIVE HERO SECTION 
+          - Added `pt-20 lg:pt-24` so it clears the fixed navbar completely.
+          - Adjusted height slightly (`h-[92svh]`) so it doesn't overflow awkwardly.
       ===================================================== */}
-      <section className="relative w-full min-h-[100svh] lg:h-screen flex flex-col lg:flex-row overflow-hidden">
+      <section className="relative w-full pt-20 lg:pt-24 min-h-[85vh] lg:h-[92svh] flex flex-col lg:flex-row overflow-hidden">
         
         {/* -----------------------------------------------------
             MOBILE: IMAGES ON TOP / DESKTOP: RIGHT COLUMN
         ----------------------------------------------------- */}
-        <div className="w-full h-[50vh] lg:h-full lg:w-1/2 relative overflow-hidden order-1 lg:order-2">
+        <div className="w-full h-[45vh] lg:h-full lg:w-1/2 relative overflow-hidden order-1 lg:order-2">
           <CyclingPanel
             images={cyclingImages}
             intervalMs={heroIntervalMs?.left || 5000}
@@ -143,7 +138,7 @@ export default function Hero() {
         {/* -----------------------------------------------------
             MOBILE: TEXT ON BOTTOM / DESKTOP: LEFT COLUMN
         ----------------------------------------------------- */}
-        <div className="w-full lg:w-1/2 min-h-[50vh] lg:h-full flex flex-col justify-between px-6 sm:px-10 lg:px-16 py-10 lg:py-16 z-20 bg-black order-2 lg:order-1">
+        <div className="w-full lg:w-1/2 min-h-[45vh] lg:h-full flex flex-col justify-between px-6 sm:px-10 lg:px-16 py-8 lg:py-12 z-20 bg-black order-2 lg:order-1">
           
           {/* Top small tag / metadata */}
           <motion.div
@@ -163,7 +158,7 @@ export default function Hero() {
               animate="visible"
               variants={fadeUp}
               transition={{ delay: 0.15 }}
-              className="font-serif font-normal text-white text-2xl sm:text-4xl lg:text-[3.2rem] xl:text-[3.8rem] leading-[1.08] tracking-tight"
+              className="font-serif font-normal text-white text-2xl sm:text-4xl lg:text-[3rem] xl:text-[3.5rem] leading-[1.08] tracking-tight"
             >
               CAPTURING THE <br />
               ELEGANCE AND <br />
@@ -176,7 +171,7 @@ export default function Hero() {
               animate="visible"
               variants={fadeUp}
               transition={{ delay: 0.3 }}
-              className="mt-4 sm:mt-6 max-w-md text-xs sm:text-sm leading-relaxed text-white/70 font-light"
+              className="mt-4 max-w-md text-xs sm:text-sm leading-relaxed text-white/70 font-light"
             >
               Professional photography and cinematography crafted around your story, your people, and your most meaningful moments.
             </motion.p>
@@ -187,7 +182,7 @@ export default function Hero() {
               animate="visible"
               variants={fadeUp}
               transition={{ delay: 0.4 }}
-              className="mt-6 sm:mt-8"
+              className="mt-6"
             >
               <button
                 onClick={() => navigate("/book-now")}
