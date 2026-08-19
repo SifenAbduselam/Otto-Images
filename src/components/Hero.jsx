@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   heroImagesLeft,
-  heroImagesRight,
   heroIntervalMs,
 } from "../config/media";
 
@@ -26,7 +25,7 @@ function usePrefersReducedMotion() {
 }
 
 /* =========================================================
-   CINEMATIC IMAGE PANEL (Cycles through images)
+   CINEMATIC IMAGE PANEL 
 ========================================================= */
 
 function CyclingPanel({
@@ -51,13 +50,18 @@ function CyclingPanel({
   if (!images || images.length === 0) return null;
 
   return (
-    <div className={`relative overflow-hidden ${className}`}>
+    <div className={`relative overflow-hidden bg-black ${className}`}>
       <AnimatePresence mode="sync">
         <motion.img
           key={images[index]}
           src={images[index]}
           alt=""
           draggable="false"
+          /* 
+            NOTE: 
+            - Use "object-cover" if you want the image to completely fill the box (may crop edges).
+            - Use "object-contain" if you want the full image to show without any cropping at all.
+          */
           className="absolute inset-0 w-full h-full object-cover grayscale brightness-90 contrast-110"
           initial={{
             opacity: 0,
@@ -83,7 +87,7 @@ function CyclingPanel({
         />
       </AnimatePresence>
 
-      {/* Subtle cinematic tint */}
+      {/* Cinematic tint overlay */}
       <div className="absolute inset-0 bg-black/20 pointer-events-none" />
     </div>
   );
@@ -112,41 +116,54 @@ export default function Hero() {
     },
   };
 
-  // Combine or choose images to cycle through for the single image panel column
-  // (Using heroImagesLeft or merging arrays if you want up to 3+ cycling photos)
   const cyclingImages = heroImagesLeft?.length > 0 ? heroImagesLeft : ["/placeholder.jpg"];
 
   return (
     <main className="bg-black text-white selection:bg-white selection:text-black">
       {/* =====================================================
-          SPLIT-SCREEN HERO SECTION (Matching layout style)
+          RESPONSIVE HERO SECTION
+          Mobile: Stacked (Images top 50vh, Text bottom 50vh)
+          Desktop: 50/50 Side-by-side full screen (lg:h-screen)
       ===================================================== */}
-      <section className="relative w-full h-[100svh] min-h-[680px] flex flex-col lg:flex-row overflow-hidden">
+      <section className="relative w-full min-h-[100svh] lg:h-screen flex flex-col lg:flex-row overflow-hidden">
         
         {/* -----------------------------------------------------
-            LEFT COLUMN: EDITORIAL TEXT CONTENT
+            MOBILE: IMAGES ON TOP / DESKTOP: RIGHT COLUMN
         ----------------------------------------------------- */}
-        <div className="w-full lg:w-1/2 h-full flex flex-col justify-between px-8 sm:px-12 lg:px-16 pt-32 pb-12 lg:py-20 z-20 bg-black">
+        <div className="w-full h-[50vh] lg:h-full lg:w-1/2 relative overflow-hidden order-1 lg:order-2">
+          <CyclingPanel
+            images={cyclingImages}
+            intervalMs={heroIntervalMs?.left || 5000}
+            reducedMotion={reducedMotion}
+            className="w-full h-full"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent lg:hidden pointer-events-none" />
+        </div>
+
+        {/* -----------------------------------------------------
+            MOBILE: TEXT ON BOTTOM / DESKTOP: LEFT COLUMN
+        ----------------------------------------------------- */}
+        <div className="w-full lg:w-1/2 min-h-[50vh] lg:h-full flex flex-col justify-between px-6 sm:px-10 lg:px-16 py-10 lg:py-16 z-20 bg-black order-2 lg:order-1">
           
           {/* Top small tag / metadata */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            className="flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-white/60"
+            className="hidden lg:flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-white/60"
           >
             <span className="h-px w-8 bg-white/40" />
             <span>Otto Images / Photography & Cinematography</span>
           </motion.div>
 
-          {/* Center Main Heading & Paragraph */}
-          <div className="my-auto py-8">
+          {/* Main Heading & Paragraph */}
+          <div className="my-auto">
             <motion.h1
               initial="hidden"
               animate="visible"
               variants={fadeUp}
               transition={{ delay: 0.15 }}
-              className="font-serif font-normal text-white text-3xl sm:text-5xl lg:text-[3.5xl] xl:text-[4rem] leading-[1.05] tracking-tight"
+              className="font-serif font-normal text-white text-2xl sm:text-4xl lg:text-[3.2rem] xl:text-[3.8rem] leading-[1.08] tracking-tight"
             >
               CAPTURING THE <br />
               ELEGANCE AND <br />
@@ -159,7 +176,7 @@ export default function Hero() {
               animate="visible"
               variants={fadeUp}
               transition={{ delay: 0.3 }}
-              className="mt-6 max-w-md text-xs sm:text-sm leading-relaxed text-white/70 font-light"
+              className="mt-4 sm:mt-6 max-w-md text-xs sm:text-sm leading-relaxed text-white/70 font-light"
             >
               Professional photography and cinematography crafted around your story, your people, and your most meaningful moments.
             </motion.p>
@@ -170,7 +187,7 @@ export default function Hero() {
               animate="visible"
               variants={fadeUp}
               transition={{ delay: 0.4 }}
-              className="mt-8"
+              className="mt-6 sm:mt-8"
             >
               <button
                 onClick={() => navigate("/book-now")}
@@ -182,28 +199,16 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Bottom left small branding detail */}
+          {/* Bottom branding detail */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeUp}
             transition={{ delay: 0.5 }}
-            className="text-[9px] uppercase tracking-[0.2em] text-white/40"
+            className="text-[9px] uppercase tracking-[0.2em] text-white/40 pt-4 lg:pt-0"
           >
             Otto Images © {new Date().getFullYear()}
           </motion.div>
-        </div>
-
-        {/* -----------------------------------------------------
-            RIGHT COLUMN: CYCLING IMAGE PANEL (Black & White style)
-        ----------------------------------------------------- */}
-        <div className="w-full lg:w-1/2 h-full relative overflow-hidden">
-          <CyclingPanel
-            images={cyclingImages}
-            intervalMs={heroIntervalMs?.left || 5000}
-            reducedMotion={reducedMotion}
-            className="w-full h-full"
-          />
         </div>
 
       </section>
