@@ -12,8 +12,6 @@ export default function Home() {
       <Hero />
       <Stats />
       <VideoShowcase />
-      <Portfolio />
-      
       <Footer />   
     </main>
   );
