@@ -1,268 +1,167 @@
 // src/components/Hero.jsx
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import {
-  heroImagesLeft,
-  heroIntervalMs,
-} from "../config/media";
 
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
-
-    const listener = (e) => setReduced(e.matches);
-    mq.addEventListener?.("change", listener);
-
-    return () => mq.removeEventListener?.("change", listener);
-  }, []);
-
-  return reduced;
-}
-
-/* =========================================================
-   CINEMATIC IMAGE PANEL (Sharper, High-Contrast Black & White)
-========================================================= */
-
-function CyclingPanel({
-  images,
-  intervalMs,
-  className = "",
-  reducedMotion,
-}) {
-  const [index, setIndex] = useState(0);
-  const timerRef = useRef(null);
-
-  useEffect(() => {
-    if (reducedMotion || !images || images.length <= 1) return;
-
-    timerRef.current = setInterval(() => {
-      setIndex((current) => (current + 1) % images.length);
-    }, intervalMs);
-
-    return () => clearInterval(timerRef.current);
-  }, [images, intervalMs, reducedMotion]);
-
-  if (!images || images.length === 0) return null;
-
-  return (
-    <div className={`relative overflow-hidden bg-black ${className}`}>
-      <AnimatePresence mode="sync">
-        <motion.img
-          key={images[index]}
-          src={images[index]}
-          alt=""
-          draggable="false"
-          /* Enhanced contrast and crisp cinematic grayscale treatment */
-          className="absolute inset-0 w-full h-full object-cover grayscale brightness-95 contrast-125"
-          initial={{
-            opacity: 0,
-            scale: 1.05,
-          }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-          }}
-          exit={{
-            opacity: 0,
-          }}
-          transition={{
-            opacity: {
-              duration: 1.8,
-              ease: "easeInOut",
-            },
-            scale: {
-              duration: (intervalMs || 5000) / 1000 + 1.8,
-              ease: "linear",
-            },
-          }}
-        />
-      </AnimatePresence>
-
-      {/* Cinematic tint overlay for extra depth */}
-      <div className="absolute inset-0 bg-black/25 pointer-events-none" />
-    </div>
-  );
-}
-
-/* =========================================================
-   HERO
-========================================================= */
+// Array of your 5 background videos
+const heroVideos = [
+  "/videos/video-1.mp4",
+  "/videos/video-2.mp4",
+  "/videos/video-3.mp4",
+  "/videos/video-4.mp4",
+  "/videos/video-5.mp4",
+];
 
 export default function Hero() {
   const navigate = useNavigate();
-  const reducedMotion = usePrefersReducedMotion();
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const videoRef = useRef(null);
 
-  // Slow, smooth slide animation variants from left
-  const slideFromLeft = {
-    hidden: { opacity: 0, x: -50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] },
-    },
+  // Handle automatic video switching when one video finishes playing
+  const handleVideoEnded = () => {
+    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % heroVideos.length);
   };
 
-  // Slow, smooth slide animation variants from right
-  const slideFromRight = {
-    hidden: { opacity: 0, x: 50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] },
-    },
-  };
-
-  const cyclingImages = heroImagesLeft?.length > 0 ? heroImagesLeft : ["/placeholder.jpg"];
+  // Force play video reference when index updates
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play().catch((error) => {
+        console.log("Autoplay prevented:", error);
+      });
+    }
+  }, [currentVideoIndex]);
 
   return (
-    <main className="bg-black text-white selection:bg-white selection:text-black">
+    <main className="relative w-full h-[100svh] bg-black text-white overflow-hidden flex items-center justify-center">
+      
       {/* =====================================================
-          RESPONSIVE HERO SECTION
+          BACKGROUND VIDEO CAROUSEL CONTAINER
       ===================================================== */}
-      <section className="relative w-full pt-16 lg:pt-20 min-h-[80vh] lg:h-[88svh] flex flex-col lg:flex-row overflow-hidden">
-        
-        {/* -----------------------------------------------------
-            MOBILE: IMAGES ON TOP / DESKTOP: RIGHT COLUMN
-        ----------------------------------------------------- */}
-        <div className="w-full h-[40vh] lg:h-full lg:w-1/2 relative overflow-hidden order-1 lg:order-2">
-          <CyclingPanel
-            images={cyclingImages}
-            intervalMs={heroIntervalMs?.left || 5000}
-            reducedMotion={reducedMotion}
-            className="w-full h-full"
+      <div className="absolute inset-0 w-full h-full overflow-hidden z-0">
+        <AnimatePresence mode="wait">
+          <motion.video
+            key={currentVideoIndex}
+            ref={videoRef}
+            src={heroVideos[currentVideoIndex]}
+            autoPlay
+            muted
+            playsInline
+            onEnded={handleVideoEnded}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="absolute inset-0 w-full h-full object-cover grayscale brightness-90 contrast-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent lg:hidden pointer-events-none" />
-        </div>
+        </AnimatePresence>
 
-        {/* -----------------------------------------------------
-            MOBILE: TEXT ON BOTTOM / DESKTOP: LEFT COLUMN
-        ----------------------------------------------------- */}
-        <div className="w-full lg:w-1/2 min-h-[40vh] lg:h-full flex flex-col justify-between px-6 sm:px-10 lg:px-14 py-6 lg:py-8 z-20 bg-black order-2 lg:order-1">
-          
-          {/* Top small tag sliding in slowly from left */}
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={slideFromLeft}
-            className="hidden lg:flex items-center gap-3 text-[9px] uppercase tracking-[0.35em] text-white/60 font-medium"
-          >
-            <span className="h-px w-6 bg-white/40" />
-            <span>Otto Images / Photography & Cinematography</span>
-          </motion.div>
-
-          {/* Main Content: Exactly 2 sharp lines of text */}
-          <div className="my-auto overflow-hidden py-2">
-            
-            {/* Line 1 - Sharp Serif, slides in from left */}
-            <motion.h1
-              initial="hidden"
-              animate="visible"
-              variants={slideFromLeft}
-              transition={{ delay: 0.15, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-              className="font-serif font-normal text-white text-xl sm:text-3xl lg:text-[2.6rem] xl:text-[3rem] leading-[1.15] tracking-tight antialiased"
-            >
-              When memories blur and the day feels like a dream,
-            </motion.h1>
-
-            {/* Line 2 - Sharp Serif, slides in from right */}
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={slideFromRight}
-              transition={{ delay: 0.35, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-2 font-serif font-normal text-white/80 text-lg sm:text-2xl lg:text-[2.2rem] xl:text-[2.5rem] leading-[1.15] tracking-tight antialiased"
-            >
-              these photos bring your story back to life.
-            </motion.div>
-
-            {/* Book Now button */}
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={slideFromLeft}
-              transition={{ delay: 0.55, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-6 sm:mt-7"
-            >
-              <button
-                onClick={() => navigate("/book-now")}
-                className="group inline-flex items-center gap-3 text-[10px] sm:text-xs uppercase tracking-[0.3em] text-white font-medium border-b border-white/50 pb-1 hover:border-white transition-colors duration-300"
-              >
-                <span>Book Now</span>
-                <span className="transform transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </button>
-            </motion.div>
-          </div>
-
-          {/* Bottom branding detail */}
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={slideFromLeft}
-            transition={{ delay: 0.75, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[9px] uppercase tracking-[0.25em] text-white/40 pt-2 lg:pt-0 font-medium"
-          >
-            Otto Images © {new Date().getFullYear()}
-          </motion.div>
-        </div>
-
-      </section>
+        {/* Cinematic Dark & Gradient Overlays for Readability */}
+        <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
+      </div>
 
       {/* =====================================================
-          INTRODUCTION SECTION
+          LEFT SIDE: VERTICAL SOCIAL ICONS (Inspired by design)
       ===================================================== */}
-      <section className="relative bg-black px-6 py-20 md:py-28 border-t border-white/10">
-        <div className="mx-auto max-w-4xl text-center">
-          <motion.span
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.8 }}
-            className="text-[10px] uppercase tracking-[0.35em] text-white/45 font-medium"
-          >
-            The Otto Images Approach
-          </motion.span>
+      <div className="absolute left-6 md:left-10 bottom-12 hidden lg:flex flex-col items-center space-y-6 z-30 text-white/70">
+        <span className="text-[10px] uppercase tracking-[0.3em] [writing-mode:vertical-lr] mb-2 text-white/50">
+          Follow Us
+        </span>
+        <span className="h-12 w-px bg-white/30 mb-2" />
+        <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-[#C8A35F] transition-colors text-xs">
+          IG
+        </a>
+        <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-[#C8A35F] transition-colors text-xs">
+          FB
+        </a>
+        <a href="https://youtube.com" target="_blank" rel="noreferrer" className="hover:text-[#C8A35F] transition-colors text-xs">
+          YT
+        </a>
+      </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
-            className="mt-6 font-serif text-2xl leading-relaxed text-white sm:text-3xl md:text-4xl antialiased"
-          >
-            We don't simply take photographs.
-            <br />
-            <span className="text-white/45">We preserve the feeling behind them.</span>
-          </motion.p>
+      {/* =====================================================
+          CENTER CONTENT (New Editorial Inspiration)
+      ===================================================== */}
+      <div className="relative z-20 text-center px-6 max-w-4xl mx-auto mt-16">
+        
+        {/* Subtitle tag */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2 }}
+          className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-[#C8A35F] font-semibold mb-4"
+        >
+          Otto Images / Cinematic Storytelling
+        </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.9, delay: 0.15, ease: "easeOut" }}
-            className="mx-auto mt-6 max-w-2xl text-sm md:text-base leading-8 text-white/50 font-light"
-          >
-            At Otto Images, every frame is created with intention. From intimate portraits to celebrations and cinematic productions, we create imagery that remains meaningful long after the moment has passed.
-          </motion.p>
+        {/* Main Headline */}
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-wider text-white uppercase leading-[1.1] drop-shadow-lg"
+        >
+          Timestepped Romance <br />
+          <span className="text-white/80 font-light italic lowercase text-2xl sm:text-4xl md:text-5xl">
+            & cinematic soul
+          </span>
+        </motion.h1>
 
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.8, delay: 0.25 }}
-            whileHover={{ backgroundColor: "#ffffff", color: "#000000" }}
-            whileTap={{ scale: 0.97 }}
+        {/* Supporting description */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6 }}
+          className="mt-6 text-xs sm:text-sm md:text-base text-white/70 max-w-xl mx-auto font-light tracking-wide leading-relaxed"
+        >
+          Crafting timeless visual heirlooms from your most cherished moments. Preserving genuine emotion with fine art elegance.
+        </motion.p>
+
+        {/* Action Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.8 }}
+          className="mt-8 flex justify-center items-center gap-6"
+        >
+          <button
             onClick={() => navigate("/book-now")}
-            className="mt-8 border border-white/30 px-8 py-3.5 text-[10px] md:text-xs uppercase tracking-[0.25em] text-white transition-colors duration-300 font-medium"
+            className="px-8 py-3.5 uppercase tracking-[0.25em] text-xs font-medium border border-white text-white bg-black/30 backdrop-blur-md transition-all duration-300 hover:bg-white hover:text-black shadow-xl"
           >
-            Start Your Story
-          </motion.button>
-        </div>
-      </section>
+            Book Your Session
+          </button>
+        </motion.div>
+      </div>
+
+      {/* =====================================================
+          RIGHT SIDE: SCROLL DOWN INDICATOR
+      ===================================================== */}
+      <div className="absolute right-6 md:right-10 bottom-12 hidden lg:flex flex-col items-center space-y-4 z-30 text-white/60">
+        <span className="text-[9px] uppercase tracking-[0.3em] [writing-mode:vertical-lr] text-white/50">
+          Scroll Down
+        </span>
+        <motion.span
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+          className="h-10 w-px bg-[#C8A35F]"
+        />
+      </div>
+
+      {/* =====================================================
+          BOTTOM LEFT: FLOATING QUICK CONTACT BUTTON (Like reference)
+      ===================================================== */}
+      <div className="absolute left-6 bottom-6 md:left-10 md:bottom-10 z-30 lg:hidden">
+        <button
+          onClick={() => navigate("/contact")}
+          className="w-12 h-12 rounded-full bg-[#C8A35F] text-black flex items-center justify-center shadow-lg hover:scale-105 transition-transform"
+          aria-label="Contact Us"
+        >
+          📞
+        </button>
+      </div>
+
     </main>
   );
 }
